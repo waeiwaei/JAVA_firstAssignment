@@ -1,5 +1,6 @@
 package edu.uob;
 
+//creates player object
 public class OXOPlayer {
 
     private char letter;

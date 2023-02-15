@@ -5,7 +5,10 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.io.Serial;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 
+//The view will determine the presentation of data given by the Model
 public class OXOView extends JPanel {
     @Serial private static final long serialVersionUID = 1;
     private static int FONT_SIZE = 20;
@@ -14,6 +17,7 @@ public class OXOView extends JPanel {
 
     private OXOModel model;
 
+    //constructor of the OXOView class
     public OXOView(OXOModel mod) {
         model = mod;
     }
@@ -50,6 +54,7 @@ public class OXOView extends JPanel {
             g.drawString("" + (char)('1'+i), (int)(MARGIN+2-(FONT_SIZE/2.0f)+horiSpacing*(i+0.5)), (int)((MARGIN/2)+(FONT_SIZE/2.0f)));
         }
 
+
         // Draw the board state
         g.setColor(Color.BLACK);
         for (int colNumber = 0; colNumber < model.getNumberOfColumns(); colNumber++) {
@@ -68,5 +73,6 @@ public class OXOView extends JPanel {
         // Draw the message near the bottom of the screen
         g.setColor(Color.BLACK);
         g.drawString(message, 7, getHeight() - 10);
+
     }
 }

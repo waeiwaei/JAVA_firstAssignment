@@ -1,7 +1,9 @@
 package edu.uob;
 
+//The model stores data relating to the programme - the values will be updated by the controller
 public class OXOModel {
 
+    //saves the ownership of specific cells
     private OXOPlayer[][] cells;
     private OXOPlayer[] players;
     private int currentPlayerNumber;
@@ -56,10 +58,12 @@ public class OXOModel {
         return cells[0].length;
     }
 
+    //gets the owner of the specific index values
     public OXOPlayer getCellOwner(int rowNumber, int colNumber) {
         return cells[rowNumber][colNumber];
     }
 
+    //saves the index values of the cell ownership
     public void setCellOwner(int rowNumber, int colNumber, OXOPlayer player) {
         cells[rowNumber][colNumber] = player;
     }
