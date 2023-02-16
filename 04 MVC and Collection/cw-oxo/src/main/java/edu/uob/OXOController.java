@@ -10,8 +10,6 @@ import java.util.regex.Pattern;
 public class OXOController {
     OXOModel gameModel;
     private static int currentPlayer = 0;
-    private static int firstIndex = 0;
-
 
     public OXOController(OXOModel model) {
         gameModel = model;
@@ -23,46 +21,36 @@ public class OXOController {
 
         //convert the co-ordinates given into a range index - using private method
         //split the string into 2 parts - alphabet and number
-        List <String> value = commandParse(command);
+        int value[] = commandParse(command);
 
         //convert the value of the character into an integer value : aA = 10, bB = 11
         //we want to fit it within the 2D board dimensions
-            //Question - how does the getNumericValue work, and if we are resizing the board
-            //how should this code work for e.g. 'AA' rows or 'AAA'
-        int rowIndex = (Character.getNumericValue(value.get(0).charAt(0))) - 10;
-        int colIndex = Integer.parseInt(value.get(1)) - 1;
+        int rowIndex = value[0] - 1;
+        int colIndex = value[1] - 1;
 
-        //check the rowIndex and colIndex are within the scope of the board
-        //else display error
-        if(checkRowColRange(rowIndex, colIndex)){
+        gameModel.setCellOwner(rowIndex, colIndex, gameModel.getPlayerByNumber(currentPlayer));
 
-            //we want to then update model on cell ownership
-            if(gameModel.getCellOwner(rowIndex, colIndex) == null){
+        //Check whether the win threshold has been achieved
+        //we can check for all the possible combinations of winning from that cell
+        checkWin(gameModel, currentPlayer);
 
-                //set cell owner of the row and column index
-                gameModel.setCellOwner(rowIndex, colIndex, gameModel.getPlayerByNumber(currentPlayer));
-            }
-
-        }else{
-            System.out.println("Error on screen");
+        if(gameModel.getWinner() != null){
+            return;
         }
 
-        //checks if the currentPlayer is more than the number of players
-        if(currentPlayer < gameModel.getNumberOfPlayers() - 1){
+        checkDraw();
 
-            //we want to switch between players
-            currentPlayer++;
-
-        }else{
-            //we re-set the currentPlayer to the first player when it goes beyond the number of players
-            currentPlayer = firstIndex;
-            gameModel.setCurrentPlayerNumber(currentPlayer);
-            System.out.println(gameModel.getCurrentPlayerNumber());
+        if(gameModel.isGameDrawn() == true){
+            return;
         }
+
+        int number = gameModel.getNumberOfPlayers();
+        currentPlayer = (currentPlayer + 1) % number;
 
         gameModel.setCurrentPlayerNumber(currentPlayer);
 
     }
+
 
     public void addRow() {}
     public void removeRow() {}
@@ -70,43 +58,146 @@ public class OXOController {
     public void removeColumn() {}
     public void increaseWinThreshold() {}
     public void decreaseWinThreshold() {}
-    public void reset() {}
+    public void reset() {
 
-    private List<String> commandParse(String str) {
+        for(int i = 0; i < gameModel.getNumberOfRows(); i++){
+            for(int j = 0; j < gameModel.getNumberOfColumns(); j++){
+                gameModel.setCellOwner(i,j,null);
+            }
+        }
+    }
 
+    private int[] commandParse(String str) {
+
+        int list[] = new int[2];
+        int index = 0;
         //we want to extract the x and y index's from the command (str)
         //we create a new ArrayList to store the index's to store patterns which match
         //the regex identifies patterns in the command with 0-9 | a-z | A-Z ('+', one or more),
-        List<String> list = new ArrayList<String>();
+        str = str.toUpperCase();
+
         Pattern pt = Pattern.compile("[0-9]+|[a-z]+|[A-Z]+");
         Matcher extract = pt.matcher(str);
 
         while (extract.find()) {
-            list.add(extract.group());
+            String strExtract = extract.group();
+
+            if(index == 0) {
+
+                list[index] = colIndexConv(strExtract);
+
+            }
+
+            if(index == 1){
+                list[index] = Integer.parseInt(strExtract);
+            }
+
+            index++;
         }
 
         return list;
     }
 
-
-    public Boolean checkRowColRange(int rowIndex, int colIndex){
-
-        //we need to check if it is within the range of the 2D array board
-        if(rowIndex <= gameModel.getNumberOfRows()){
-            System.out.println("Row index - " + rowIndex);
-        }else{
-            System.out.println("Error - row index is beyond board");
-            return false;
+    static int colIndexConv(String s) {
+        int colValue = 0;
+        for (int i = 0; i < s.length(); i++){
+            colValue *= 26;
+            colValue += s.charAt(i) - 'A' + 1;
         }
-
-        if(colIndex <= gameModel.getNumberOfColumns()){
-            System.out.println("Column index - " + colIndex);
-        }else{
-            System.out.println("Error - Col index is beyond board");
-            return false;
-        }
-
-        return true;
+        return colValue;
     }
+
+
+    public void checkWin(OXOModel gameModel, Integer currentPlayer){
+
+        checkWinHorizontal();
+
+        if(gameModel.getWinner() == null){
+            checkWinVertical();
+        }
+
+        if(gameModel.getWinner() == null){
+            checkWinDiagonal();
+        }
+    }
+
+    private void checkWinDiagonal() {
+
+        int index;
+        int columns = gameModel.getNumberOfRows();
+
+        //first diagonal across
+        for(index = 0; index < gameModel.getNumberOfRows(); index++){
+            if(gameModel.getCellOwner(index,index) == null ||gameModel.getCellOwner(index,index) != gameModel.getPlayerByNumber(gameModel.getCurrentPlayerNumber())){
+                break;
+            }
+        }
+
+        if(index == gameModel.getNumberOfRows()){
+            gameModel.setWinner(gameModel.getPlayerByNumber(gameModel.getCurrentPlayerNumber()));
+            return;
+        }
+
+        for(index = 0; index < gameModel.getNumberOfRows(); index++){
+            if(gameModel.getCellOwner(index, ((columns-1)-index)) == null || gameModel.getCellOwner(index, ((columns-1)-index)) != gameModel.getPlayerByNumber(gameModel.getCurrentPlayerNumber())){
+                break;
+            }
+        }
+
+        if(index == gameModel.getNumberOfRows()){
+            gameModel.setWinner(gameModel.getPlayerByNumber(gameModel.getCurrentPlayerNumber()));
+            return;
+        }
+
+    }
+
+    private void checkWinVertical() {
+        int rows, columns;
+
+        for(rows = 0; rows < gameModel.getNumberOfRows(); rows++){
+            for(columns = 0; columns < gameModel.getNumberOfColumns(); columns++){
+                if(gameModel.getCellOwner(columns, rows) == null || gameModel.getCellOwner(columns, rows) != gameModel.getPlayerByNumber(gameModel.getCurrentPlayerNumber())){
+                  break;
+                }
+            }
+
+            if(columns == gameModel.getNumberOfRows()){
+                gameModel.setWinner(gameModel.getPlayerByNumber(gameModel.getCurrentPlayerNumber()));
+                return;
+            }
+        }
+    }
+
+    private void checkWinHorizontal() {
+        int rows, columns;
+
+        for(rows = 0; rows < gameModel.getNumberOfRows(); rows++){
+            for(columns = 0; columns < gameModel.getNumberOfColumns(); columns++){
+                if(gameModel.getCellOwner(rows, columns) == null || gameModel.getCellOwner(rows, columns) != gameModel.getPlayerByNumber(gameModel.getCurrentPlayerNumber())){
+                    break;
+                }
+            }
+
+            if(columns == gameModel.getNumberOfRows()){
+                gameModel.setWinner(gameModel.getPlayerByNumber(gameModel.getCurrentPlayerNumber()));
+                return;
+            }
+
+        }
+    }
+
+    private void checkDraw() {
+
+        for(int i = 0; i < gameModel.getNumberOfRows(); i++){
+            for(int j = 0; j < gameModel.getNumberOfColumns(); j++){
+                if(gameModel.getCellOwner(i,j) == null){
+                    return;
+                }
+            }
+        }
+
+        gameModel.setGameDrawn();
+    }
+
 
     }
