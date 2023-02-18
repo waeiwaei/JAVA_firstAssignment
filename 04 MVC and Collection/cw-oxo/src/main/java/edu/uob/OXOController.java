@@ -15,6 +15,10 @@ public class OXOController {
 
     public void handleIncomingCommand(String command) throws OXOMoveException {
 
+        if(gameModel.getWinner() != null){
+            return;
+        };
+
         System.out.println(gameModel.getCurrentPlayerNumber());
 
         if(command.length() != 2) {
@@ -74,6 +78,10 @@ public class OXOController {
 
     public void addRow() {
 
+        if(gameModel.getWinner() != null){
+            return;
+        };
+
         if(gameModel.isGameDrawn() == true){
             togglePlayer();
             resetDraw(gameModel);
@@ -83,9 +91,18 @@ public class OXOController {
     }
 
     public void removeRow() {
+
+        if(gameModel.getWinner() != null){
+            return;
+        };
+
         gameModel.removeRow();
     }
     public void addColumn() {
+
+        if(gameModel.getWinner() != null){
+            return;
+        };
 
         if(gameModel.isGameDrawn() == true){
             togglePlayer();
@@ -95,12 +112,27 @@ public class OXOController {
         gameModel.addColumn();
     }
     public void removeColumn() {
+
+        if(gameModel.getWinner() != null){
+            return;
+        };
+
         gameModel.removeColumn();
     }
     public void increaseWinThreshold() {
+
+        if(gameModel.getWinner() != null){
+            return;
+        };
+
         gameModel.setWinThreshold(gameModel.getWinThreshold()+1);
     }
     public void decreaseWinThreshold() {
+
+        if(gameModel.getWinner() != null){
+            return;
+        };
+
         gameModel.setWinThreshold(gameModel.getWinThreshold()-1);
     }
 
