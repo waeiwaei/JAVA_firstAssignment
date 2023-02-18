@@ -1,11 +1,12 @@
 package edu.uob;
 
-//The model stores data relating to the programme - the values will be updated by the controller
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class OXOModel {
 
-    //saves the ownership of specific cells
-    private OXOPlayer[][] cells;
-    private OXOPlayer[] players;
+    private ArrayList<ArrayList<OXOPlayer>> cells;
+    private ArrayList<OXOPlayer> players;
     private int currentPlayerNumber;
     private OXOPlayer winner;
     private boolean gameDrawn;
@@ -13,25 +14,25 @@ public class OXOModel {
 
     public OXOModel(int numberOfRows, int numberOfColumns, int winThresh) {
         winThreshold = winThresh;
-        cells = new OXOPlayer[numberOfRows][numberOfColumns];
-        players = new OXOPlayer[2];
+        cells = new ArrayList<ArrayList<OXOPlayer>>();
+
+        ArrayList<OXOPlayer> test = new ArrayList<OXOPlayer>();
+
+        initialiseCells(numberOfRows, numberOfColumns);
+
+        players = new ArrayList<OXOPlayer>();
     }
 
     public int getNumberOfPlayers() {
-        return players.length;
+        return players.size();
     }
 
     public void addPlayer(OXOPlayer player) {
-        for (int i = 0; i < players.length; i++) {
-            if (players[i] == null) {
-                players[i] = player;
-                return;
-            }
-        }
+        players.add(player);
     }
 
     public OXOPlayer getPlayerByNumber(int number) {
-        return players[number];
+        return players.get(number);
     }
 
     public OXOPlayer getWinner() {
@@ -51,21 +52,19 @@ public class OXOModel {
     }
 
     public int getNumberOfRows() {
-        return cells.length;
+        return cells.size();
     }
 
     public int getNumberOfColumns() {
-        return cells[0].length;
+        return cells.get(0).size();
     }
 
-    //gets the owner of the specific index values
     public OXOPlayer getCellOwner(int rowNumber, int colNumber) {
-        return cells[rowNumber][colNumber];
+        return cells.get(rowNumber).get(colNumber);
     }
 
-    //saves the index values of the cell ownership
     public void setCellOwner(int rowNumber, int colNumber, OXOPlayer player) {
-        cells[rowNumber][colNumber] = player;
+        cells.get(rowNumber).set(colNumber,player);
     }
 
     public void setWinThreshold(int winThresh) {
@@ -82,6 +81,41 @@ public class OXOModel {
 
     public boolean isGameDrawn() {
         return gameDrawn;
+    }
+
+    public void resetGameDrawn(){
+        this.gameDrawn = false;
+    }
+
+    public void initialiseCells(int numberOfRows, int numberOfColumns){
+        for(int i=0;i<numberOfRows;i++){
+            cells.add(new ArrayList<OXOPlayer>());
+            for(int j=0;j<numberOfColumns;j++)
+                cells.get(i).add(null);
+        }
+    }
+
+    public void addRow(){
+        cells.add(new ArrayList<OXOPlayer>());
+        for(int i = 0; i < cells.get(0).size(); i++){
+            cells.get(cells.size() - 1).add(null);
+        }
+    }
+
+    public void addColumn(){
+        for(int i=0;i<cells.size();i++){
+            cells.get(i).add(null);
+        }
+    }
+
+    public void removeRow(){
+        cells.remove(cells.size()-1);
+    }
+
+    public void removeColumn(){
+        for(int i=0;i<cells.size();i++){
+            cells.get(i).remove(cells.get(i).size()-1);
+        }
     }
 
 }
