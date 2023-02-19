@@ -19,8 +19,6 @@ public class OXOController {
             return;
         };
 
-        System.out.println(gameModel.getCurrentPlayerNumber());
-
         if(command.length() != 2) {
             throw new OXOMoveException.InvalidIdentifierLengthException(command.length());
         }
@@ -92,7 +90,7 @@ public class OXOController {
 
     public void removeRow() {
 
-        if(gameModel.getWinner() != null){
+        if(gameModel.getWinner() != null ){
             return;
         };
 
@@ -113,7 +111,7 @@ public class OXOController {
     }
     public void removeColumn() {
 
-        if(gameModel.getWinner() != null){
+        if(gameModel.getWinner() != null ){
             return;
         };
 
@@ -141,7 +139,7 @@ public class OXOController {
 
         gameModel.setWinner(null);
         gameModel.resetGameDrawn();
-        gameModel.setWinThreshold(3);
+        //gameModel.setWinThreshold(3);
         gameModel.setCurrentPlayerNumber(0);
         this.currentPlayer = 0;
 
@@ -272,7 +270,7 @@ public class OXOController {
 
 
     //resets the "game draw" of the state
-    private void resetDraw(OXOModel gameModel){
+    public void resetDraw(OXOModel gameModel){
 
         gameModel.resetGameDrawn();
 
