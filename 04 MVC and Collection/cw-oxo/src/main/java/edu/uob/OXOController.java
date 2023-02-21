@@ -195,7 +195,7 @@ public class OXOController {
             for(int j = 0; j < gameModel.getNumberOfColumns(); j++){
                 int currentThreshold = 0;
                 for(int k = 0;;k++){
-                    if(gameModel.getCellOwner(i, j) == null ||  i+k>=gameModel.getNumberOfRows() ||  j - k >=gameModel.getNumberOfRows() || i + k < 0 || j-k < 0 || gameModel.getCellOwner(i, j) != gameModel.getCellOwner(i+k, j-k)){
+                    if(gameModel.getCellOwner(i, j) == null ||  i+k>=gameModel.getNumberOfRows() || i + k < 0 || j-k < 0 || gameModel.getCellOwner(i, j) != gameModel.getCellOwner(i+k, j-k)){
                         break;
                     }else{
                         currentThreshold++;
