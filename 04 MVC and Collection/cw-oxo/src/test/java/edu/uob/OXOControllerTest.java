@@ -59,14 +59,14 @@ class OXOControllerTest {
         controller.removeColumn();
         controller.resetDraw(model);
 
-        // if winner != null, not allowed to add rows and columns
+        // if winner != null, allowed add rows and columns
         model.setWinner(model.getPlayerByNumber(model.getCurrentPlayerNumber()));
 
         controller.addRow();
-        assertEquals((originalRow), model.getNumberOfRows(), messageRow);
+        assertEquals((originalRow + 1), model.getNumberOfRows(), messageRow);
 
         controller.addColumn();
-        assertEquals((originalCol), model.getNumberOfColumns(), messageCol);
+        assertEquals((originalCol + 1), model.getNumberOfColumns(), messageCol);
 
         controller.reset();
 
@@ -492,6 +492,7 @@ class OXOControllerTest {
         assertThrows(OutsideCellRangeException.class, ()-> sendCommandToController("d4"), throwsComment);
         assertThrows(OutsideCellRangeException.class, ()-> sendCommandToController("a4"), throwsComment);
         controller.reset();
+
     }
 
 
@@ -551,8 +552,8 @@ class OXOControllerTest {
         controller.addRow();
         controller.addColumn();
 
-        assertEquals(originalRow, model.getNumberOfRows(),"Row size has not remained the same - error");
-        assertEquals(originalCol, model.getNumberOfColumns(),"Column size has not remained the same - error");
+        assertEquals(originalRow + 1, model.getNumberOfRows(),"Row size has not remained the same - error");
+        assertEquals(originalCol + 1, model.getNumberOfColumns(),"Column size has not remained the same - error");
 
         controller.reset();
 
@@ -565,6 +566,8 @@ class OXOControllerTest {
             }
         }
 
+        controller.removeRow();
+        controller.removeColumn();
 
         //Play Game - 2 players (3x3 Board) (Win Threshold - 3)
         //Win Diagonal - First Diagonal
@@ -685,7 +688,7 @@ class OXOControllerTest {
         controller.reset();
 
 
-        //Play Game - 2 players (3x3 Board, Result: CheckDiagonalWin (First Diagonal)) ((Win Threshold - 2)
+        //Play Game - 2 players (3x3 Board, Result: CheckDiagonalWin (First Diagonal) ((Win Threshold - 2)
         sendCommandToController("a1"); // First player
         sendCommandToController("a3"); // Second player
         sendCommandToController("b2"); // First player - winner
@@ -693,7 +696,7 @@ class OXOControllerTest {
         assertEquals(model.getWinner(), firstPlayer, "Player one was supposed to win but didn't");
         controller.reset();
 
-        //Play Game - 2 players (3x3 Board, Result: CheckDiagonalWin (Second Diagonal)) (Win Threshold - 2)
+        //Play Game - 2 players (3x3 Board, Result: CheckDiagonalWin (Second Diagonal) (Win Threshold - 2)
         sendCommandToController("a3"); // First player
         sendCommandToController("a2"); // Second player
         sendCommandToController("b2"); // First player - winner
