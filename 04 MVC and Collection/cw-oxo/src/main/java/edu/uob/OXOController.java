@@ -76,9 +76,9 @@ public class OXOController {
 
     public void addRow() {
 
-        if(gameModel.getWinner() != null){
-            return;
-        };
+//        if(gameModel.getWinner() != null){
+//            return;
+//        };
 
         if(gameModel.isGameDrawn() == true){
             togglePlayer();
@@ -94,13 +94,20 @@ public class OXOController {
             return;
         };
 
+        //need to check if Row has values inside && gamewinner = null
+        for(int i = 0; i < gameModel.getNumberOfColumns(); i++){
+            if(gameModel.getCellOwner(gameModel.getNumberOfRows() - 1, i) != null && gameModel.getWinner() == null){
+               return;
+            }
+        }
+
         gameModel.removeRow();
     }
     public void addColumn() {
 
-        if(gameModel.getWinner() != null){
-            return;
-        };
+//        if(gameModel.getWinner() != null){
+//            return;
+//        };
 
         if(gameModel.isGameDrawn() == true){
             togglePlayer();
@@ -114,6 +121,13 @@ public class OXOController {
         if(gameModel.getWinner() != null || gameModel.getNumberOfColumns() == 1){
             return;
         };
+
+        //need to check if Column has values inside && gamewinner = null
+        for(int i = 0; i < gameModel.getNumberOfRows(); i++){
+            if(gameModel.getCellOwner(i,gameModel.getNumberOfColumns() - 1) != null && gameModel.getWinner() == null){
+                return;
+            }
+        }
 
         gameModel.removeColumn();
     }

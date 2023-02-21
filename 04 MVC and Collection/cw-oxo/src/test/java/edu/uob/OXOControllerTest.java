@@ -711,7 +711,8 @@ class OXOControllerTest {
         //Play with 3 players - (4x3 Board) (win threshold - 4) (Winner - Player A)
         controller.increaseWinThreshold();
         controller.addRow();
-        model.addPlayer(new OXOPlayer('A'));  // Third Player Added
+        OXOPlayer thirdPlayer = new OXOPlayer('A');
+        model.addPlayer(thirdPlayer);  // Third Player Added
 
 
         sendCommandToController("a1");   // First Player
@@ -816,7 +817,7 @@ class OXOControllerTest {
         assertEquals(model.getPlayerByNumber(model.getCurrentPlayerNumber()), model.getWinner(), "Player 'A' was supposed to win but didn't");
         controller.reset();
 
-        //Play with 3 players - (4x8 Board) (win threshold - 4) (Winner - Player A)
+        //Three players - (4x8 Board) (win threshold - 4) (Winner - Player A)
         //Vertical Win
         sendCommandToController("a8");   // First Player
         sendCommandToController("b2");   // Second Player
@@ -832,6 +833,223 @@ class OXOControllerTest {
         sendCommandToController("d4");   // Third Player - winner
 
         assertEquals(model.getPlayerByNumber(model.getCurrentPlayerNumber()), model.getWinner(), "Player 'A' was supposed to win but didn't");
+        controller.reset();
+
+        //Re-set to 3x3 Board (win threshold - 3)
+        controller.removeRow();
+
+        for(int i = 0; i < 5;i++) {
+            controller.removeColumn();
+        }
+
+        controller.decreaseWinThreshold();
+
+
+        //Test game with 4 players
+        OXOPlayer fourPlayer = new OXOPlayer('B');
+        model.addPlayer(fourPlayer);
+
+
+        //Four Players - (3x3 Board) (win threshold - 3)
+        //Game Drawn
+        sendCommandToController("a1");   // First Player
+        sendCommandToController("b1");   // Second Player
+        sendCommandToController("c1");   // Third Player
+        sendCommandToController("b2");   // Fourth Player
+        sendCommandToController("c2");   // First Player
+        sendCommandToController("a2");   // Second Player
+        sendCommandToController("a3");   // Third Player
+        sendCommandToController("b3");   // Fourth Player
+        sendCommandToController("c3");   // First Player - winner
+
+        assertEquals(fourPlayer, model.getCellOwner(1, 1), "Cell Owner is supposed to be Player B");
+        assertEquals(null, model.getWinner(), "Player 'X' was supposed to win but didn't");
+
+        controller.reset();
+
+
+        //Four Players - (3x3 Board) (win threshold - 3) (Player X)
+        //First Diagonal Win
+        sendCommandToController("a1");   // First Player
+        sendCommandToController("a2");   // Second Player
+        sendCommandToController("a3");   // Third Player
+        sendCommandToController("b1");   // Fourth Player
+        sendCommandToController("b2");   // First Player
+        sendCommandToController("b3");   // Second Player
+        sendCommandToController("c1");   // Third Player
+        sendCommandToController("c2");   // Fourth Player
+        sendCommandToController("c3");   // First Player - winner
+
+        assertEquals(fourPlayer, model.getCellOwner(2, 1), "Cell Owner is supposed to be Player B");
+        assertEquals(firstPlayer, model.getWinner(), "Player 'X' was supposed to win but didn't");
+
+        controller.reset();
+
+
+        //Four Players - (3x3 Board) (win threshold - 3) (Player X)
+        //Second Diagonal Win
+        sendCommandToController("c1");   // First Player
+        sendCommandToController("b1");   // Second Player
+        sendCommandToController("c2");   // Third Player
+        sendCommandToController("a1");   // Fourth Player
+        sendCommandToController("b2");   // First Player
+        sendCommandToController("b3");   // Second Player
+        sendCommandToController("c3");   // Third Player
+        sendCommandToController("a2");   // Fourth Player
+        sendCommandToController("a3");   // First Player - winner
+
+        assertEquals(firstPlayer, model.getWinner(), "Player 'X' was supposed to win but didn't");
+
+        controller.reset();
+
+        //Four Players - (3x3 Board) (win threshold - 3) (Player X)
+        //Vertical Win
+        sendCommandToController("a1");   // First Player
+        sendCommandToController("a2");   // Second Player
+        sendCommandToController("a3");   // Third Player
+        sendCommandToController("b3");   // Fourth Player
+        sendCommandToController("b1");   // First Player
+        sendCommandToController("b2");   // Second Player
+        sendCommandToController("c2");   // Third Player
+        sendCommandToController("c3");   // Fourth Player
+        sendCommandToController("c1");   // First Player - winner
+
+        assertEquals(firstPlayer, model.getWinner(), "Player 'X' was supposed to win but didn't");
+
+        controller.reset();
+
+
+        //Four Players - (3x3 Board) (win threshold - 3) (Player X)
+        //Horizontal Win
+        sendCommandToController("a1");   // First Player
+        sendCommandToController("b3");   // Second Player
+        sendCommandToController("c3");   // Third Player
+        sendCommandToController("c2");   // Fourth Player
+        sendCommandToController("a2");   // First Player
+        sendCommandToController("b2");   // Second Player
+        sendCommandToController("b1");   // Third Player
+        sendCommandToController("c1");   // Fourth Player
+        sendCommandToController("a3");   // First Player - winner
+
+        assertEquals(firstPlayer, model.getWinner(), "Player 'X' was supposed to win but didn't");
+
+        controller.reset();
+
+
+        //Four Players - (4x8 Board) (win threshold - 4) (Player B)
+        controller.increaseWinThreshold();
+
+        for(int i = 0; i < 2; i++) {
+            controller.addRow();
+        }
+
+        for(int i = 0; i < 5;i++) {
+            controller.addColumn();
+        }
+
+
+        //First Diagonal Win
+        sendCommandToController("b3");   // First Player
+        sendCommandToController("b4");   // Second Player
+        sendCommandToController("d6");   // Third Player
+        sendCommandToController("b2");   // Fourth Player
+
+        sendCommandToController("c2");   // First Player
+        sendCommandToController("d2");   // Second Player
+        sendCommandToController("c4");   // Third Player
+        sendCommandToController("c3");   // Fourth Player
+
+
+        sendCommandToController("d1");   // First Player
+        sendCommandToController("e1");   // Second Player
+        sendCommandToController("d3");   // Third Player
+        sendCommandToController("d4");   // Fourth Player
+
+        sendCommandToController("c5");   // First Player
+        sendCommandToController("d5");   // Second Player
+        sendCommandToController("e3");   // Third Player
+        sendCommandToController("e5");   // Fourth Player - winner
+
+        assertEquals(fourPlayer, model.getWinner(), "Player 'B' was supposed to win but didn't");
+
+        controller.reset();
+
+        //Second Diagonal Win
+        sendCommandToController("b5");   // First Player
+        sendCommandToController("c8");   // Second Player
+        sendCommandToController("a2");   // Third Player
+        sendCommandToController("b8");   // Fourth Player
+
+        sendCommandToController("c4");   // First Player
+        sendCommandToController("d8");   // Second Player
+        sendCommandToController("b2");   // Third Player
+        sendCommandToController("c7");   // Fourth Player
+
+
+        sendCommandToController("d4");   // First Player
+        sendCommandToController("d7");   // Second Player
+        sendCommandToController("c2");   // Third Player
+        sendCommandToController("d6");   // Fourth Player
+
+        sendCommandToController("e4");   // First Player
+        sendCommandToController("e7");   // Second Player
+        sendCommandToController("d3");   // Third Player
+        sendCommandToController("e5");   // Fourth Player - winner
+
+        assertEquals(fourPlayer, model.getWinner(), "Player 'B' was supposed to win but didn't");
+
+        controller.reset();
+
+        //Vertical Win
+        sendCommandToController("a4");   // First Player
+        sendCommandToController("a5");   // Second Player
+        sendCommandToController("a3");   // Third Player
+        sendCommandToController("a2");   // Fourth Player
+
+        sendCommandToController("b4");   // First Player
+        sendCommandToController("b5");   // Second Player
+        sendCommandToController("b3");   // Third Player
+        sendCommandToController("b2");   // Fourth Player
+
+
+        sendCommandToController("c4");   // First Player
+        sendCommandToController("c5");   // Second Player
+        sendCommandToController("c3");   // Third Player
+        sendCommandToController("c2");   // Fourth Player
+
+        sendCommandToController("d5");   // First Player
+        sendCommandToController("d3");   // Second Player
+        sendCommandToController("d4");   // Third Player
+        sendCommandToController("d2");   // Fourth Player - winner
+
+        assertEquals(fourPlayer, model.getWinner(), "Player 'B' was supposed to win but didn't");
+
+        controller.reset();
+
+        //Horizontal Win
+        sendCommandToController("a4");   // First Player
+        sendCommandToController("b4");   // Second Player
+        sendCommandToController("d4");   // Third Player
+        sendCommandToController("c4");   // Fourth Player
+
+        sendCommandToController("b3");   // First Player
+        sendCommandToController("b5");   // Second Player
+        sendCommandToController("d5");   // Third Player
+        sendCommandToController("c5");   // Fourth Player
+
+
+        sendCommandToController("c3");   // First Player
+        sendCommandToController("b6");   // Second Player
+        sendCommandToController("d6");   // Third Player
+        sendCommandToController("c6");   // Fourth Player
+
+        sendCommandToController("d3");   // First Player
+        sendCommandToController("d7");   // Second Player
+        sendCommandToController("b7");   // Third Player
+        sendCommandToController("c7");   // Fourth Player - winner
+
+        assertEquals(fourPlayer, model.getWinner(), "Player 'B' was supposed to win but didn't");
+
         controller.reset();
 
     }
