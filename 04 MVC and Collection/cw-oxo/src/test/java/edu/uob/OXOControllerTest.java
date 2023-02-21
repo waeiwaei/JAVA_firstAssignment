@@ -126,22 +126,22 @@ class OXOControllerTest {
         String messageNoWinner = "first player did not win the game - Diagonal";
 
         // Test first diagonal, win threshold (3) - 3x3 board
-        sendCommandToController("a1");
-        sendCommandToController("b1");
-        sendCommandToController("b2");
-        sendCommandToController("c1");
-        sendCommandToController("c3");
+        sendCommandToController("a1");  // First Player
+        sendCommandToController("b1");  // Second Player
+        sendCommandToController("b2");  // First Player
+        sendCommandToController("c1");  // Second Player
+        sendCommandToController("c3");  // First Player
 
         assertEquals(firstPlayer, model.getWinner(), messageNoWinner);
         controller.reset();
 
 
         // Test second diagonal, win threshold (3) - 3x3 board
-        sendCommandToController("a3");
-        sendCommandToController("a1");
-        sendCommandToController("b2");
-        sendCommandToController("c3");
-        sendCommandToController("c1");
+        sendCommandToController("a3");  // First Player
+        sendCommandToController("a1");  // Second Player
+        sendCommandToController("b2");  // First Player
+        sendCommandToController("c3");  // Second Player
+        sendCommandToController("c1");  // First Player
 
         assertEquals(firstPlayer, model.getWinner(), messageNoWinner);
         controller.reset();
@@ -151,19 +151,19 @@ class OXOControllerTest {
         controller.removeRow();
         controller.removeColumn();
 
-        sendCommandToController("a1");
-        sendCommandToController("b1");
-        sendCommandToController("b2");
-        sendCommandToController("a2");
+        sendCommandToController("a1");  // First Player
+        sendCommandToController("b1");  // Second Player
+        sendCommandToController("b2");  // First Player
+        sendCommandToController("a2");  // Second Player
 
         assertEquals(null,model.getWinner(), messageNoWinner);
         controller.reset();
 
         // Test second diagonal, win threshold (3) - 2x2 board
-        sendCommandToController("a2");
-        sendCommandToController("b2");
-        sendCommandToController("b1");
-        sendCommandToController("a1");
+        sendCommandToController("a2");  // First Player
+        sendCommandToController("b2");  // Second Player
+        sendCommandToController("b1");  // First Player
+        sendCommandToController("a1");  // Second Player
 
         assertEquals(null,model.getWinner(), messageNoWinner);
         controller.reset();
@@ -173,9 +173,9 @@ class OXOControllerTest {
 
         // Test first diagonal, win threshold (2) - 3x3 board
         controller.decreaseWinThreshold();
-        sendCommandToController("a1");
-        sendCommandToController("b1");
-        sendCommandToController("b2");
+        sendCommandToController("a1");  // First Player
+        sendCommandToController("b1");  // Second Player
+        sendCommandToController("b2");  // First Player
 
         assertEquals(firstPlayer, model.getWinner(), messageNoWinner);
         controller.reset();
@@ -186,13 +186,13 @@ class OXOControllerTest {
         controller.addRow();
         controller.addColumn();
         controller.increaseWinThreshold();
-        sendCommandToController("a1");
-        sendCommandToController("b1");
-        sendCommandToController("b2");
-        sendCommandToController("c1");
-        sendCommandToController("c3");
-        sendCommandToController("d2");
-        sendCommandToController("d4");
+        sendCommandToController("a1");  // First Player
+        sendCommandToController("b1");  // Second Player
+        sendCommandToController("b2");  // First Player
+        sendCommandToController("c1");  // Second Player
+        sendCommandToController("c3");  // First Player
+        sendCommandToController("d2");  // Second Player
+        sendCommandToController("d4");  // First Player
 
         assertEquals(firstPlayer, model.getWinner(), messageNoWinner);
         controller.reset();
@@ -213,11 +213,11 @@ class OXOControllerTest {
         String messageNoWinner = "first player did not win the game - Vertical";
 
         // Test vertical, win threshold (3) - 3x3 board
-        sendCommandToController("a1");
-        sendCommandToController("b2");
-        sendCommandToController("b1");
-        sendCommandToController("c3");
-        sendCommandToController("c1");
+        sendCommandToController("a1");  // First Player
+        sendCommandToController("b2");  // Second Player
+        sendCommandToController("b1");  // First Player
+        sendCommandToController("c3");  // Second Player
+        sendCommandToController("c1");  // First Player
 
         assertEquals(firstPlayer, model.getWinner(), messageNoWinner);
         controller.reset();
@@ -226,10 +226,10 @@ class OXOControllerTest {
         controller.removeRow();
         controller.removeColumn();
 
-        sendCommandToController("a1");
-        sendCommandToController("b1");
-        sendCommandToController("a2");
-        sendCommandToController("b2");
+        sendCommandToController("a1");  // First Player
+        sendCommandToController("b1");  // Second Player
+        sendCommandToController("a2");  // First Player
+        sendCommandToController("b2");  // Second Player
 
         assertEquals(null,model.getWinner(), messageNoWinner);
         controller.reset();
@@ -239,9 +239,9 @@ class OXOControllerTest {
 
         // Test vertical, win threshold (2) - 3x3 board
         controller.decreaseWinThreshold();
-        sendCommandToController("a1");
-        sendCommandToController("b2");
-        sendCommandToController("b1");
+        sendCommandToController("a1");  // First Player
+        sendCommandToController("b2");  // Second Player
+        sendCommandToController("b1");  // First Player
 
 
         assertEquals(firstPlayer, model.getWinner(), messageNoWinner);
@@ -250,13 +250,13 @@ class OXOControllerTest {
         // Test vertical, win threshold (4) - 4x3 board
         controller.addRow();
         controller.increaseWinThreshold();
-        sendCommandToController("a1");
-        sendCommandToController("b2");
-        sendCommandToController("b1");
-        sendCommandToController("c3");
-        sendCommandToController("c1");
-        sendCommandToController("d3");
-        sendCommandToController("d1");
+        sendCommandToController("a1");  // First Player
+        sendCommandToController("b2");  // Second Player
+        sendCommandToController("b1");  // First Player
+        sendCommandToController("c3");  // Second Player
+        sendCommandToController("c1");  // First Player
+        sendCommandToController("d3");  // Second Player
+        sendCommandToController("d1");  // First Player
 
         assertEquals(firstPlayer, model.getWinner(), messageNoWinner);
         controller.reset();
@@ -273,11 +273,11 @@ class OXOControllerTest {
         String messageNoWinner = "First player did not win the game - Horizontal";
 
         // Test horizontal, win threshold (3) - 3x3 board
-        sendCommandToController("a1");
-        sendCommandToController("b2");
-        sendCommandToController("a2");
-        sendCommandToController("c3");
-        sendCommandToController("a3");
+        sendCommandToController("a1");  // First Player
+        sendCommandToController("b2");  // Second Player
+        sendCommandToController("a2");  // First Player
+        sendCommandToController("c3");  // Second Player
+        sendCommandToController("a3");  // First Player
 
         assertEquals(firstPlayer, model.getWinner(), messageNoWinner);
         controller.reset();
@@ -286,10 +286,10 @@ class OXOControllerTest {
         controller.removeRow();
         controller.removeColumn();
 
-        sendCommandToController("a1");
-        sendCommandToController("b1");
-        sendCommandToController("a2");
-        sendCommandToController("b2");
+        sendCommandToController("a1");  // First Player
+        sendCommandToController("b1");  // Second Player
+        sendCommandToController("a2");  // First Player
+        sendCommandToController("b2");  // Second Player
 
         assertEquals(null,model.getWinner(), messageNoWinner);
         controller.reset();
@@ -300,9 +300,9 @@ class OXOControllerTest {
 
         // Test horizontal, win threshold (2) - 3x3 board
         controller.decreaseWinThreshold();
-        sendCommandToController("a1");
-        sendCommandToController("b2");
-        sendCommandToController("a2");
+        sendCommandToController("a1");  // First Player
+        sendCommandToController("b2");  // Second Player
+        sendCommandToController("a2");  // First Player
 
         assertEquals(firstPlayer, model.getWinner(), messageNoWinner);
         controller.reset();
@@ -312,13 +312,13 @@ class OXOControllerTest {
         controller.addRow();
         controller.addColumn();
 
-        sendCommandToController("a1");
-        sendCommandToController("b2");
-        sendCommandToController("a2");
-        sendCommandToController("c3");
-        sendCommandToController("a3");
-        sendCommandToController("c4");
-        sendCommandToController("a4");
+        sendCommandToController("a1");  // First Player
+        sendCommandToController("b2");  // Second Player
+        sendCommandToController("a2");  // First Player
+        sendCommandToController("c3");  // Second Player
+        sendCommandToController("a3");  // First Player
+        sendCommandToController("c4");  // Second Player
+        sendCommandToController("a4");  // First Player
 
         assertEquals(firstPlayer, model.getWinner(), messageNoWinner);
         controller.reset();
@@ -326,6 +326,7 @@ class OXOControllerTest {
         // Reset board to 3x3, win threshold (3)
         controller.removeRow();
         controller.removeColumn();
+        controller.reset();
 
     }
 
@@ -346,14 +347,18 @@ class OXOControllerTest {
         sendCommandToController("c2");  // First Player
 
         assertEquals(model.isGameDrawn(), true, messageNotDrawn);
+        controller.reset();
 
     }
 
     @Test
     void checkReset(){
 
+        int originalNumberOfPlayers = model.getNumberOfPlayers();
+        int originalWinThreshold = model.getWinThreshold();
         String messageNotDrawn = "Drawn detection not working";
 
+        //Reset Drawn Game
         sendCommandToController("a1");  // First Player
         sendCommandToController("b1");  // Second Player
         sendCommandToController("a2");  // First Player
@@ -364,10 +369,59 @@ class OXOControllerTest {
         sendCommandToController("c3");  // Second Player
         sendCommandToController("c2");  // First Player
 
-        assertEquals(model.isGameDrawn(), true, messageNotDrawn);
+        assertEquals(true,model.isGameDrawn(), messageNotDrawn);
 
-
+        controller.reset();
         String messageNotReset = "Reset not working";
+
+        //check cells if they are empty after reset
+        for(int i = 0; i < model.getNumberOfRows(); i++){
+            for(int j = 0; j < model.getNumberOfColumns(); j++){
+                assertEquals(null, model.getCellOwner(i , j));
+            }
+        }
+
+        assertEquals(false, model.isGameDrawn(), messageNotReset);
+        assertEquals(originalNumberOfPlayers, model.getNumberOfPlayers(), "Number of Players has changed");
+        assertEquals(originalWinThreshold, model.getWinThreshold(), "Win threshold has changed");
+
+
+        //Reset Win Game (3x3 Board) (2 Players)
+        sendCommandToController("a1");  // First Player
+        sendCommandToController("b2");  // Second Player
+        sendCommandToController("a2");  // First Player
+        sendCommandToController("c1");  // Second Player
+        sendCommandToController("b3");  // First Player
+        sendCommandToController("a3");  // Second Player - winner
+
+        assertEquals(model.getPlayerByNumber(model.getCurrentPlayerNumber()), model.getWinner(), messageNotReset);
+
+        controller.reset();
+
+        assertEquals(null, model.getWinner(), messageNotReset);
+
+        //check cells if they are empty after reset
+        for(int i = 0; i < model.getNumberOfRows(); i++){
+            for(int j = 0; j < model.getNumberOfColumns(); j++){
+                assertEquals(null, model.getCellOwner(i , j));
+            }
+        }
+
+        //Reset Drawn Game (3x3 Board) (3 Players)
+        OXOPlayer thirdPlayer = new OXOPlayer('A');
+        model.addPlayer(thirdPlayer);
+
+        sendCommandToController("a1");  // First Player
+        sendCommandToController("b1");  // Second Player
+        sendCommandToController("a2");  // Third Player
+        sendCommandToController("b2");  // First Player
+        sendCommandToController("b3");  // Second Player
+        sendCommandToController("a3");  // Third Player
+        sendCommandToController("c1");  // First Player
+        sendCommandToController("c3");  // Second Player
+        sendCommandToController("c2");  // Third Player
+
+        assertEquals(true,model.isGameDrawn(), messageNotDrawn);
 
         controller.reset();
 
@@ -380,6 +434,8 @@ class OXOControllerTest {
 
         assertEquals(false, model.isGameDrawn(), messageNotReset);
 
+        model.removePlayer(thirdPlayer);
+
     }
 
 
@@ -391,6 +447,8 @@ class OXOControllerTest {
         controller.togglePlayer();
 
         assertEquals(model.getPlayerByNumber(model.getCurrentPlayerNumber()), model.getPlayerByNumber(firstPlayer + 1));
+        controller.reset();
+
     }
 
     @Test
@@ -412,6 +470,7 @@ class OXOControllerTest {
         sendCommandToController("c1");   //Third Player
 
         assertEquals(model.getCellOwner(2,0), model.getPlayerByNumber(model.getNumberOfPlayers() - 1));    // c1
+        controller.reset();
 
 
     }
@@ -422,6 +481,8 @@ class OXOControllerTest {
         assertThrows(InvalidIdentifierLengthException.class, ()-> sendCommandToController("dd1"), throwsComment);
         assertThrows(InvalidIdentifierLengthException.class, ()-> sendCommandToController("d111"), throwsComment);
         assertThrows(InvalidIdentifierLengthException.class, ()-> sendCommandToController("aa99"), throwsComment);
+        controller.reset();
+
     }
 
     @Test
@@ -430,6 +491,7 @@ class OXOControllerTest {
         String throwsComment = "Outside Cell Range";
         assertThrows(OutsideCellRangeException.class, ()-> sendCommandToController("d4"), throwsComment);
         assertThrows(OutsideCellRangeException.class, ()-> sendCommandToController("a4"), throwsComment);
+        controller.reset();
     }
 
 
@@ -440,13 +502,15 @@ class OXOControllerTest {
         String throwsComment = "Invalid Character";
         assertThrows(InvalidIdentifierCharacterException.class, ()->sendCommandToController("1a"), throwsComment);
         assertThrows(InvalidIdentifierCharacterException.class, ()->sendCommandToController("9z"), throwsComment);
+        controller.reset();
+
     }
 
     @Test
     void testThrowsCellAlreadyTakenException(){
 
         String throwsComment = "Cell Already Taken";
-        sendCommandToController("a1");     // First Player takes cell a1
+        sendCommandToController("a1");  //  First Player takes cell a1
 
         assertThrows(CellAlreadyTakenException.class, ()->sendCommandToController("a1"), throwsComment);   // Second player tries to take owned cell position, throws exception
         controller.reset();
@@ -470,10 +534,6 @@ class OXOControllerTest {
         assertEquals(false, model.isGameDrawn(), "gameDrawn set to true error");
 
 
-
-
-
-
         int originalRow = model.getNumberOfRows();
         int originalCol = model.getNumberOfColumns();
         int originalWinThreshold = model.getWinThreshold();
@@ -483,7 +543,7 @@ class OXOControllerTest {
         sendCommandToController("b1"); // Second player
         sendCommandToController("a2"); // First player
         sendCommandToController("b2"); // Second player
-        sendCommandToController("a3"); // First player
+        sendCommandToController("a3"); // First player - winner
 
         assertEquals(model.getWinner(), firstPlayer, "Player one was supposed to win but didn't");
 
@@ -493,7 +553,6 @@ class OXOControllerTest {
 
         assertEquals(originalRow, model.getNumberOfRows(),"Row size has not remained the same - error");
         assertEquals(originalCol, model.getNumberOfColumns(),"Column size has not remained the same - error");
-
 
         controller.reset();
 
@@ -507,10 +566,71 @@ class OXOControllerTest {
         }
 
 
+        //Play Game - 2 players (3x3 Board) (Win Threshold - 3)
+        //Win Diagonal - First Diagonal
+        sendCommandToController("a1"); // First player
+        sendCommandToController("a2"); // Second player
+        sendCommandToController("b2"); // First player
+        sendCommandToController("b3"); // Second player
+        sendCommandToController("c3"); // First player - winner
+
+        assertEquals(firstPlayer,model.getWinner(),"Player X was supposed to win - error");
+
+        controller.reset();
 
 
+        //Play Game - 2 players (4x4 Board) (Win Threshold - 3)
+        //Win Diagonal - Second Diagonal
+        controller.addRow();
+        controller.addColumn();
 
-        //Play Game - 2 players (3x3 Board, Result: Draw, AddRow and AddColumn until winner) (reduce win threshold from 3 to 2)
+        sendCommandToController("a2"); // First player
+        sendCommandToController("a3"); // Second player
+        sendCommandToController("b3"); // First player
+        sendCommandToController("d1"); // Second player
+        sendCommandToController("c4"); // First player - winner
+
+        assertEquals(firstPlayer,model.getWinner(),"Player X was supposed to win - error");
+
+        controller.reset();
+
+        controller.removeRow();
+        controller.removeColumn();
+
+
+        //Play Game - 2 players (3x4 Board) (Win Threshold - 3)
+        controller.addColumn();
+
+        sendCommandToController("a1"); // First player
+        sendCommandToController("b2"); // Second player
+        sendCommandToController("a2"); // First player
+        sendCommandToController("b3"); // Second player
+        sendCommandToController("c3"); // First player
+        sendCommandToController("b4"); // Second player - winner
+
+        assertEquals(model.getPlayerByNumber(model.getCurrentPlayerNumber()), model.getWinner(), "Second Player was supposed to win - error");
+
+        controller.reset();
+        controller.removeColumn();
+
+
+        //Play Game - 2 players (4x3 Board) (Win Threshold - 3)
+        controller.addRow();
+
+        sendCommandToController("a1"); // First player
+        sendCommandToController("b1"); // Second player
+        sendCommandToController("a2"); // First player
+        sendCommandToController("c1"); // Second player
+        sendCommandToController("b2"); // First player
+        sendCommandToController("d1"); // Second player - winner
+
+        assertEquals(model.getPlayerByNumber(model.getCurrentPlayerNumber()), model.getWinner(), "Second Player was supposed to win - error");
+
+        controller.reset();
+        controller.removeRow();
+
+
+        //Play Game - 2 players (3x3 Board, Result: Draw, AddRow and AddColumn until winner)
         sendCommandToController("a1"); // First player
         sendCommandToController("a3"); // Second player
         sendCommandToController("a2"); // First player
@@ -521,15 +641,15 @@ class OXOControllerTest {
         sendCommandToController("b2"); // Second player
         sendCommandToController("c3"); // First player
 
-        assertEquals(model.isGameDrawn(), true, "Game is not Drawn - error");
+        assertEquals(true,model.isGameDrawn(),  "Game is not Drawn - error");
 
         controller.addRow();
         controller.addColumn();
 
         sendCommandToController("c4"); // Second player
-        sendCommandToController("d3"); // First player
+        sendCommandToController("d3"); // First player - Winner
 
-        assertEquals(model.getWinner(), firstPlayer, "Player one was supposed to win but didn't");
+        assertEquals(firstPlayer,model.getWinner(),  "Player one was supposed to win but didn't");
         controller.reset();
 
         //After using reset, board size and threshold should remain the same
@@ -542,7 +662,7 @@ class OXOControllerTest {
 
 
 
-        //Play Game - 2 players (3x3 Board, Result: CheckHorizontalWin) (reduce win threshold from 3 to 2)
+        //Play Game - 2 players (3x3 Board, Result: CheckHorizontalWin) (Win Threshold - 2)
         controller.decreaseWinThreshold();
 
         sendCommandToController("a1"); // First player
@@ -550,65 +670,169 @@ class OXOControllerTest {
         sendCommandToController("b1"); // First player
 
 
-        assertEquals(model.getWinner(), firstPlayer, "Player one was supposed to win but didn't");
+        assertEquals(firstPlayer,model.getWinner(),  "Player one was supposed to win but didn't");
         controller.reset();
 
 
 
 
-        //Play Game - 2 players (3x3 Board, Result: CheckVerticalWin) (reduce win threshold from 3 to 2)
+        //Play Game - 2 players (3x3 Board, Result: CheckVerticalWin) (Win Threshold - 2)
         sendCommandToController("a1"); // First player
         sendCommandToController("a3"); // Second player
-        sendCommandToController("b1"); // First player
+        sendCommandToController("b1"); // First player - winner
 
-        assertEquals(model.getWinner(), firstPlayer, "Player one was supposed to win but didn't");
+        assertEquals(firstPlayer,model.getWinner(),  "Player one was supposed to win but didn't");
         controller.reset();
 
 
-        //Play Game - 2 players (3x3 Board, Result: CheckDiagonalWin (First Diagonal)) (reduce win threshold from 3 to 2)
+        //Play Game - 2 players (3x3 Board, Result: CheckDiagonalWin (First Diagonal)) ((Win Threshold - 2)
         sendCommandToController("a1"); // First player
         sendCommandToController("a3"); // Second player
-        sendCommandToController("b2"); // First player
+        sendCommandToController("b2"); // First player - winner
 
         assertEquals(model.getWinner(), firstPlayer, "Player one was supposed to win but didn't");
         controller.reset();
 
-        //Play Game - 2 players (3x3 Board, Result: CheckDiagonalWin (Second Diagonal)) (reduce win threshold from 3 to 2)
+        //Play Game - 2 players (3x3 Board, Result: CheckDiagonalWin (Second Diagonal)) (Win Threshold - 2)
         sendCommandToController("a3"); // First player
         sendCommandToController("a2"); // Second player
-        sendCommandToController("b2"); // First player
+        sendCommandToController("b2"); // First player - winner
 
         assertEquals(model.getWinner(), firstPlayer, "Player one was supposed to win but didn't");
         controller.reset();
 
 
 
-        //Reset win threshold from 2 to 3
+        //Change win threshold from 2 to 3
         controller.increaseWinThreshold();
         assertEquals(originalWinThreshold, model.getWinThreshold(), "Win threshold has not increased remained the same - error");
 
 
-        //Play with 3 players - (4x3 Board) (win threshold - 4)
+        //Play with 3 players - (4x3 Board) (win threshold - 4) (Winner - Player A)
         controller.increaseWinThreshold();
         controller.addRow();
-        model.addPlayer(new OXOPlayer('A'));
+        model.addPlayer(new OXOPlayer('A'));  // Third Player Added
 
 
-        sendCommandToController("a1");   //First Player
-        sendCommandToController("a2");   //Second Player
-        sendCommandToController("a3");   //Third Player
-        sendCommandToController("b1");   //First Player
-        sendCommandToController("b2");   //Second Player
-        sendCommandToController("b3");   //Third Player
-        sendCommandToController("c2");   //First Player
-        sendCommandToController("c1");   //Second Player
-        sendCommandToController("c3");   //Third Player
-        sendCommandToController("d1");   //First Player
-        sendCommandToController("d2");   //Second Player
-        sendCommandToController("d3");   //Third Player
+        sendCommandToController("a1");   // First Player
+        sendCommandToController("a2");   // Second Player
+        sendCommandToController("a3");   // Third Player
+        sendCommandToController("b1");   // First Player
+        sendCommandToController("b2");   // Second Player
+        sendCommandToController("b3");   // Third Player
+        sendCommandToController("c1");   // First Player
+        sendCommandToController("c2");   // Second Player
+        sendCommandToController("c3");   // Third Player
+        sendCommandToController("d1");   // First Player - winner
 
-        assertEquals(model.getWinner(), model.getPlayerByNumber(model.getCurrentPlayerNumber()), "Player 'A' was supposed to win but didn't");
+        // Once winner = true, commands will not change the state of the board
+        sendCommandToController("d2");   // Second Player
+        sendCommandToController("d3");   // Third Player
 
+        assertEquals(null, model.getCellOwner(3,1), "Cell owner has been set after winner = true");
+        assertEquals(null, model.getCellOwner(3,2), "Cell owner has been set after winner = true");
+
+        assertEquals(model.getPlayerByNumber(model.getCurrentPlayerNumber()), model.getWinner(), "Player 'A' was supposed to win but didn't");
+
+        controller.reset();
+        controller.decreaseWinThreshold();
+
+
+        //Play with 3 players - (4x3 Board) (win threshold - 2) (Winner - Player O)
+        controller.decreaseWinThreshold();
+
+        sendCommandToController("a1");   // First Player
+        sendCommandToController("a2");   // Second Player
+        sendCommandToController("a3");   // Third Player
+        sendCommandToController("d3");   // First Player
+        sendCommandToController("c1");   // Second Player
+        sendCommandToController("d1");   // Third Player
+        sendCommandToController("c2");   // First Player
+
+        assertEquals(firstPlayer, model.getWinner(), "Player 'A' was supposed to win but didn't");
+
+        controller.reset();
+        controller.increaseWinThreshold();
+
+
+        //Play with 3 players - (4x8 Board) (win threshold - 4) (Winner - Player A)
+        //Horizontal Win
+        for(int i = 0; i < 5;i++) {
+            controller.addColumn();
+        }
+
+        controller.increaseWinThreshold();
+
+        sendCommandToController("a1");   // First Player
+        sendCommandToController("b8");   // Second Player
+        sendCommandToController("c2");   // Third Player
+        sendCommandToController("d6");   // First Player
+        sendCommandToController("c1");   // Second Player
+        sendCommandToController("c3");   // Third Player
+        sendCommandToController("c7");   // First Player
+        sendCommandToController("a2");   // Second Player
+        sendCommandToController("c4");   // Third Player
+        sendCommandToController("d3");   // First Player
+        sendCommandToController("a6");   // Second Player
+        sendCommandToController("c5");   // Third Player - winner
+
+        assertEquals(model.getPlayerByNumber(model.getCurrentPlayerNumber()), model.getWinner(), "Player 'A' was supposed to win but didn't");
+        controller.reset();
+
+        //Play with 3 players - (4x8 Board) (win threshold - 4) (Winner - Player A)
+        //First Diagonal Win
+        sendCommandToController("b1");   // First Player
+        sendCommandToController("a1");   // Second Player
+        sendCommandToController("a4");   // Third Player
+        sendCommandToController("b2");   // First Player
+        sendCommandToController("a2");   // Second Player
+        sendCommandToController("b5");   // Third Player
+        sendCommandToController("c2");   // First Player
+        sendCommandToController("c1");   // Second Player
+        sendCommandToController("c6");   // Third Player
+        sendCommandToController("d1");   // First Player
+        sendCommandToController("d2");   // Second Player
+        sendCommandToController("d7");   // Third Player - winner
+
+        assertEquals(model.getPlayerByNumber(model.getCurrentPlayerNumber()), model.getWinner(), "Player 'A' was supposed to win but didn't");
+        controller.reset();
+
+
+        //Play with 3 players - (4x8 Board) (win threshold - 4) (Winner - Player A)
+        //Second Diagonal Win
+        sendCommandToController("c5");   // First Player
+        sendCommandToController("b2");   // Second Player
+        sendCommandToController("a6");   // Third Player
+        sendCommandToController("c6");   // First Player
+        sendCommandToController("b3");   // Second Player
+        sendCommandToController("b5");   // Third Player
+        sendCommandToController("c7");   // First Player
+        sendCommandToController("b4");   // Second Player
+        sendCommandToController("c4");   // Third Player
+        sendCommandToController("b6");   // First Player
+        sendCommandToController("a4");   // Second Player
+        sendCommandToController("d3");   // Third Player - winner
+
+        assertEquals(model.getPlayerByNumber(model.getCurrentPlayerNumber()), model.getWinner(), "Player 'A' was supposed to win but didn't");
+        controller.reset();
+
+        //Play with 3 players - (4x8 Board) (win threshold - 4) (Winner - Player A)
+        //Vertical Win
+        sendCommandToController("a8");   // First Player
+        sendCommandToController("b2");   // Second Player
+        sendCommandToController("a4");   // Third Player
+        sendCommandToController("b7");   // First Player
+        sendCommandToController("c2");   // Second Player
+        sendCommandToController("b4");   // Third Player
+        sendCommandToController("c6");   // First Player
+        sendCommandToController("d2");   // Second Player
+        sendCommandToController("c4");   // Third Player
+        sendCommandToController("a2");   // First Player
+        sendCommandToController("d5");   // Second Player
+        sendCommandToController("d4");   // Third Player - winner
+
+        assertEquals(model.getPlayerByNumber(model.getCurrentPlayerNumber()), model.getWinner(), "Player 'A' was supposed to win but didn't");
+        controller.reset();
 
     }
 

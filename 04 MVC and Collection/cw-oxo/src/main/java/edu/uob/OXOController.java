@@ -90,7 +90,7 @@ public class OXOController {
 
     public void removeRow() {
 
-        if(gameModel.getWinner() != null ){
+        if(gameModel.getWinner() != null || gameModel.getNumberOfRows() == 1){
             return;
         };
 
@@ -111,7 +111,7 @@ public class OXOController {
     }
     public void removeColumn() {
 
-        if(gameModel.getWinner() != null ){
+        if(gameModel.getWinner() != null || gameModel.getNumberOfColumns() == 1){
             return;
         };
 
@@ -139,7 +139,6 @@ public class OXOController {
 
         gameModel.setWinner(null);
         gameModel.resetGameDrawn();
-        //gameModel.setWinThreshold(3);
         gameModel.setCurrentPlayerNumber(0);
         this.currentPlayer = 0;
 
@@ -196,7 +195,7 @@ public class OXOController {
             for(int j = 0; j < gameModel.getNumberOfColumns(); j++){
                 int currentThreshold = 0;
                 for(int k = 0;;k++){
-                    if(gameModel.getCellOwner(i, j) == null ||  i+k>=gameModel.getNumberOfRows() ||  j-k>=gameModel.getNumberOfRows() || i+k < 0 || j-k <0 || gameModel.getCellOwner(i, j) != gameModel.getCellOwner(i+k, j-k)){
+                    if(gameModel.getCellOwner(i, j) == null ||  i+k>=gameModel.getNumberOfRows() ||  j - k >=gameModel.getNumberOfRows() || i + k < 0 || j-k < 0 || gameModel.getCellOwner(i, j) != gameModel.getCellOwner(i+k, j-k)){
                         break;
                     }else{
                         currentThreshold++;

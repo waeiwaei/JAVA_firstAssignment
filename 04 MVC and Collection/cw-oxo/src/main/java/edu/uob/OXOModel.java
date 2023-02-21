@@ -16,8 +16,6 @@ public class OXOModel {
         winThreshold = winThresh;
         cells = new ArrayList<ArrayList<OXOPlayer>>();
 
-        ArrayList<OXOPlayer> test = new ArrayList<OXOPlayer>();
-
         initialiseCells(numberOfRows, numberOfColumns);
 
         players = new ArrayList<OXOPlayer>();
@@ -30,6 +28,8 @@ public class OXOModel {
     public void addPlayer(OXOPlayer player) {
         players.add(player);
     }
+
+    public void removePlayer(OXOPlayer player){ players.remove(player); }
 
     public OXOPlayer getPlayerByNumber(int number) {
         return players.get(number);
