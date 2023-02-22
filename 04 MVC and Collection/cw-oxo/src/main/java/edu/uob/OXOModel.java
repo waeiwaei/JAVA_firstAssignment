@@ -109,13 +109,17 @@ public class OXOModel {
     }
 
     public void removeRow(){
-        cells.remove(cells.size()-1);
+
+            cells.remove(cells.size()-1);
+
     }
 
-    public void removeColumn(){
+    public void removeColumn(int row, int col){
+
         for(int i=0;i<cells.size();i++){
             cells.get(i).remove(cells.get(i).size()-1);
         }
+
     }
 
 }

@@ -92,16 +92,13 @@ class OXOControllerTest {
 
 
 
-        // if checkGameDrawn = true,  allowed to remove rows and columns
+        // if checkGameDrawn = true, not allowed to remove rows and columns
         model.setGameDrawn();
         controller.removeRow();
-        assertEquals((originalRow - 1), model.getNumberOfRows(), messageRow);
+        assertEquals((originalRow), model.getNumberOfRows(), messageRow);
 
         controller.removeColumn();
-        assertEquals((originalCol - 1), model.getNumberOfColumns(), messageCol);
-
-        controller.addRow();
-        controller.addColumn();
+        assertEquals((originalCol), model.getNumberOfColumns(), messageCol);
 
         controller.resetDraw(model);
 
@@ -117,6 +114,45 @@ class OXOControllerTest {
         assertEquals((originalCol), model.getNumberOfColumns(), messageCol);
 
         controller.reset();
+
+        //if removing rows causes a draw state, not allowed to remove rows and columns
+        String messageNotDrawn = "Drawn detection not working";
+        int originalRowNo = model.getNumberOfRows();
+        int originalColNo = model.getNumberOfColumns();
+
+        sendCommandToController("a1");  // First Player
+        sendCommandToController("b1");  // Second Player
+        sendCommandToController("a2");  // First Player
+        sendCommandToController("b2");  // Second Player
+        sendCommandToController("b3");  // First Player
+        sendCommandToController("a3");  // Second Player
+        sendCommandToController("c1");  // First Player
+        sendCommandToController("c3");  // Second Player
+        sendCommandToController("c2");  // First Player
+
+        assertEquals(model.isGameDrawn(), true, messageNotDrawn);
+
+        //not allowed to remove row and column if it causes a draw/win state
+        controller.addRow();
+        controller.addColumn();
+
+        controller.removeRow();
+        controller.removeColumn();
+        assertEquals(originalRowNo, model.getNumberOfRows(), "Not allowed to remove rows if it causes a Draw - error");
+        assertEquals(originalColNo + 1, model.getNumberOfColumns(), "No allowed to remove columns if it causes Draw - error");
+
+        controller.addRow();
+        controller.removeColumn();
+        assertEquals(originalRowNo+1, model.getNumberOfRows(), "Not allowed to remove rows if it causes a Draw - error");
+        assertEquals(originalColNo, model.getNumberOfColumns(), "No allowed to remove columns if it causes Draw - error");
+
+
+        controller.reset();
+        controller.removeRow();
+        controller.removeColumn();
+
+        controller.reset();
+
     }
 
     @Test
@@ -335,6 +371,8 @@ class OXOControllerTest {
     void checkDraw(){
 
         String messageNotDrawn = "Drawn detection not working";
+        int originalRowNo = model.getNumberOfRows();
+        int originalColNo = model.getNumberOfColumns();
 
         sendCommandToController("a1");  // First Player
         sendCommandToController("b1");  // Second Player
