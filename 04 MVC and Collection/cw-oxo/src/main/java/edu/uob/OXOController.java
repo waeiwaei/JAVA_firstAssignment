@@ -123,7 +123,7 @@ public class OXOController {
             }
         }
 
-        gameModel.removeColumn(gameModel.getNumberOfRows() , gameModel.getNumberOfColumns());
+        gameModel.removeColumn();
     }
 
 

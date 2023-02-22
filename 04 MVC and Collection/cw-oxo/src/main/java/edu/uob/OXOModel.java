@@ -114,7 +114,7 @@ public class OXOModel {
 
     }
 
-    public void removeColumn(int row, int col){
+    public void removeColumn(){
 
         for(int i=0;i<cells.size();i++){
             cells.get(i).remove(cells.get(i).size()-1);
