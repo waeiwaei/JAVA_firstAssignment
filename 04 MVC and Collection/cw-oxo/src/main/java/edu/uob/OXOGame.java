@@ -36,7 +36,6 @@ public class OXOGame extends Frame implements WindowListener, ActionListener, Mo
         OXOModel model = new OXOModel(3, 3, 3);
         model.addPlayer(new OXOPlayer('X'));
         model.addPlayer(new OXOPlayer('O'));
-
         controller = new OXOController(model);
         inputBox = new TextField("");
         inputBox.addActionListener(this);

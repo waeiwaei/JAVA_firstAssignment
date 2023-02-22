@@ -80,7 +80,9 @@ public class OXOController {
             resetDraw(gameModel);
         }
 
-        gameModel.addRow();
+        if(gameModel.getNumberOfRows() < 9){
+            gameModel.addRow();
+        }
     }
 
     public void removeRow() {
@@ -106,7 +108,9 @@ public class OXOController {
             resetDraw(gameModel);
         }
 
-        gameModel.addColumn();
+        if(gameModel.getNumberOfColumns() < 9) {
+            gameModel.addColumn();
+        }
     }
 
 
@@ -193,30 +197,20 @@ public class OXOController {
 
     private void checkWinDiagonal(int rowIndex, int colIndex) {
 
-        //first diagonal across
-        //if min(col,row) is less than winThreshold, the winThreshold cannot be reached by diagonal win
-        //try implementing similar logic for vertical and horizontal win checking as well
         if (Math.min(gameModel.getNumberOfColumns(), gameModel.getNumberOfRows()) < gameModel.getWinThreshold()) {
             return;
         }
 
-        //here, we use i, j as offsets to the pointer, instead of using the pointers directly (since, there would be two pairs of pointers required then)
-        //to point to rowIndex and colIndex, simultaneously
-        //Notice that (rowIndex-i,colIndex-i) goes back up along the "main diagonal"
-        //So, we put conditions accordingly
         int i = 0, j = 0;
         while (rowIndex - i >= 0 && colIndex - i >= 0 && gameModel.getCellOwner(rowIndex - i, colIndex - i) == gameModel.getPlayerByNumber(gameModel.getCurrentPlayerNumber())){
             i++;
         }
 
-        //In a similar way, we used the variable j for shoving offset in the positive direction of the "main diagonal"
-        //Notice that (rowIndex+j,colIndex+j) goes down along the "main diagonal"
         while(rowIndex+j<gameModel.getNumberOfRows() && colIndex+j<gameModel.getNumberOfColumns() && gameModel.getCellOwner(rowIndex+j, colIndex+j) == gameModel.getPlayerByNumber(gameModel.getCurrentPlayerNumber())) {
             j++;
         }
 
-        //finally, we find that j and i contains the no. of entries from the current one, how many consecutively have the
-        //cell owner same as the current player
+
         if( j + i - 1>=gameModel.getWinThreshold()) {
             gameModel.setWinner(gameModel.getPlayerByNumber(gameModel.getCurrentPlayerNumber()));
         }

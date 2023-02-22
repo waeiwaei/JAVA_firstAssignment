@@ -110,7 +110,7 @@ public class OXOModel {
 
     public void removeRow(){
 
-            cells.remove(cells.size()-1);
+        cells.remove(cells.size()-1);
 
     }
 
