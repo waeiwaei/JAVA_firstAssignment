@@ -2,9 +2,6 @@ package edu.uob;
 
 import edu.uob.OXOMoveException.*;
 
-
-//will update the model, which holds the data of the status of the game
-//will sit in between both the Model and View classes, to update each one
 public class OXOController {
     OXOModel gameModel;
     private int currentPlayer = 0;
@@ -33,8 +30,6 @@ public class OXOController {
             throw new OXOMoveException.InvalidIdentifierCharacterException(col, command.charAt(1));
         }
 
-        //convert the value of the character into an integer value : aA = 10, bB = 11
-        //we want to fit it within the 2D board dimensions
         command = command.toUpperCase();
         int rowIndex = command.charAt(0) - 'A';
         int colIndex = command.charAt(1) - '1';
@@ -54,8 +49,6 @@ public class OXOController {
 
         gameModel.setCellOwner(rowIndex, colIndex, gameModel.getPlayerByNumber(currentPlayer));
 
-        //Check whether the win threshold has been achieved
-        //we can check for all the possible combinations of winning from that cell
         checkWin(gameModel, rowIndex, colIndex);
 
         if(gameModel.getWinner() != null){
@@ -87,12 +80,11 @@ public class OXOController {
 
     public void removeRow() {
 
-        if(gameModel.isGameDrawn() == true || gameModel.getWinner() != null || gameModel.getNumberOfRows() == 1 || checkRemoveLastRowCausesWinDraw() == true){
+        if(gameModel.isGameDrawn() == true || gameModel.getWinner() != null || gameModel.getNumberOfRows() == 1 || checkDrawRemoveRow() == true){
             return;
         };
 
-        //need to check if Row has values inside && gamewinner = null
-        for(int i = 0; i < gameModel.getNumberOfColumns() - 1; i++) {
+        for(int i = 0; i < gameModel.getNumberOfColumns(); i++) {
             if (gameModel.getCellOwner(gameModel.getNumberOfRows() - 1, i) != null && gameModel.getWinner() == null) {
                 return;
             }
@@ -116,7 +108,7 @@ public class OXOController {
 
     public void removeColumn() {
 
-        if(gameModel.isGameDrawn() == true || gameModel.getWinner() != null || gameModel.getNumberOfColumns() == 1 || checkRemoveLastColumnCausesWinDraw() == true){
+        if(gameModel.isGameDrawn() == true || gameModel.getWinner() != null || gameModel.getNumberOfColumns() == 1 || checkDrawRemoveColumn() == true){
             return;
         };
 
@@ -133,31 +125,40 @@ public class OXOController {
 
     public void increaseWinThreshold() {
 
-        if(gameModel.getWinner() != null){
-            return;
-        };
-
         gameModel.setWinThreshold(gameModel.getWinThreshold()+1);
     }
 
     public void decreaseWinThreshold() {
-        //win threshold can only be decreased before the start of a game
-        int flag = 0;
+
+        if(gameModel.getWinThreshold() == 3){
+            return;
+        }
+
+
+        if(gameModel.getWinner() != null && checkGameStart() == true){
+            gameModel.setWinThreshold(gameModel.getWinThreshold() - 1);
+            return;
+        }
+
+        if(checkGameStart() == true){
+            return;
+        }
+
+
+        gameModel.setWinThreshold(gameModel.getWinThreshold() - 1);
+
+    }
+
+    public boolean checkGameStart(){
+
         for(int i = 0; i < gameModel.getNumberOfRows(); i++){
             for(int j = 0; j < gameModel.getNumberOfColumns(); j++){
                 if(gameModel.getCellOwner(i,j) != null){
-                    flag = 1;
+                    return true;
                 }
             }
         }
-
-        if(gameModel.getWinner() != null){
-            return;
-        };
-
-        if(flag == 0) {
-            gameModel.setWinThreshold(gameModel.getWinThreshold() - 1);
-        }
+        return false;
     }
 
 
@@ -313,172 +314,9 @@ public class OXOController {
     }
 
 
-    public boolean checkWinDiagonalRemoveRow() {
-
-        for(int i=0;i<gameModel.getNumberOfRows() - 1;i++){
-            for(int j=0;j<gameModel.getNumberOfColumns();j++){
-                int currThreshold = 0;
-                for(int k=0;;k++){
-                    if(gameModel.getCellOwner(i, j) == null || i+k >= gameModel.getNumberOfRows() || j+k >=gameModel.getNumberOfColumns() || gameModel.getCellOwner(i, j) != gameModel.getCellOwner(i+k, j+k)){
-                        break;
-                    }else {
-                        currThreshold++;
-                    }
-
-                    if(currThreshold == gameModel.getWinThreshold()){
-                        return true;
-                    }
-                }
-            }
-        }
-
-        for(int i=0;i<gameModel.getNumberOfRows() - 1;i++){
-            for(int j=0;j<gameModel.getNumberOfColumns();j++){
-                int currThreshold = 0;
-                for(int k=0;;k++){
-                    if(gameModel.getCellOwner(i, j) == null || i+k>=gameModel.getNumberOfRows() || i-k < 0 || j-k <0 || gameModel.getCellOwner(i, j) != gameModel.getCellOwner(i+k, j-k)) {
-                        break;
-                    }else {
-                        currThreshold++;
-                    }
-
-                    if(currThreshold == gameModel.getWinThreshold()){
-                        return true;
-                    }
-                }
-            }
-        }
-
-        return false;
-    }
-
-
-    public boolean checkWinDiagonalRemoveColumn() {
-
-        for(int i=0;i<gameModel.getNumberOfRows();i++){
-            for(int j=0;j<gameModel.getNumberOfColumns() - 1;j++){
-                int currThreshold = 0;
-                for(int k=0;;k++){
-                    if(gameModel.getCellOwner(i, j) == null || i+k >= gameModel.getNumberOfRows() || j+k >=gameModel.getNumberOfColumns() || gameModel.getCellOwner(i, j) != gameModel.getCellOwner(i+k, j+k)){
-                        break;
-                    }else {
-                        currThreshold++;
-                    }
-
-                    if(currThreshold == gameModel.getWinThreshold()){
-                        return true;
-                    }
-                }
-            }
-        }
-
-        for(int i=0;i<gameModel.getNumberOfRows();i++){
-            for(int j=0;j<gameModel.getNumberOfColumns() - 1;j++){
-                int currThreshold = 0;
-                for(int k=0;;k++){
-                    if(gameModel.getCellOwner(i, j) == null || i+k>=gameModel.getNumberOfRows() || i-k < 0 || j-k <0 || gameModel.getCellOwner(i, j) != gameModel.getCellOwner(i+k, j-k)) {
-                        break;
-                    }else {
-                        currThreshold++;
-                    }
-
-                    if(currThreshold == gameModel.getWinThreshold()){
-                        return true;
-                    }
-                }
-            }
-        }
-
-        return false;
-    }
-
-
-    public boolean checkWinHorizontalRemoveRow() {
-        int rows, columns;
-
-        for (rows = 0; rows < gameModel.getNumberOfRows() - 1; rows++) {
-            int currThreshold = 0;
-            for (columns = 0; columns < gameModel.getNumberOfColumns(); columns++) {
-                if (gameModel.getCellOwner(rows, columns) == null || gameModel.getCellOwner(rows, columns) != gameModel.getPlayerByNumber(gameModel.getCurrentPlayerNumber())) {
-                    currThreshold = 0;
-                }else {
-                    currThreshold++;
-                }
-
-                if (currThreshold == gameModel.getWinThreshold()) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    public boolean checkWinHorizontalRemoveColumn() {
-        int rows, columns;
-
-        for (rows = 0; rows < gameModel.getNumberOfRows(); rows++) {
-            int currThreshold = 0;
-            for (columns = 0; columns < gameModel.getNumberOfColumns() - 1; columns++) {
-                if (gameModel.getCellOwner(rows, columns) == null || gameModel.getCellOwner(rows, columns) != gameModel.getPlayerByNumber(gameModel.getCurrentPlayerNumber())) {
-                    currThreshold = 0;
-                }else {
-                    currThreshold++;
-                }
-
-                if (currThreshold == gameModel.getWinThreshold()) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    public boolean checkWinVerticalRemoveRow() {
-        int rows, columns;
-
-        for(columns = 0; columns < gameModel.getNumberOfColumns(); columns++){
-            int currThreshold = 0;
-            for(rows = 0; rows < gameModel.getNumberOfRows() - 1; rows++){
-                if(gameModel.getCellOwner(rows,columns) == null || gameModel.getCellOwner(rows,columns) != gameModel.getPlayerByNumber(gameModel.getCurrentPlayerNumber())){
-                    currThreshold = 0;
-                } else {
-                    currThreshold++;
-                }
-                if(currThreshold == gameModel.getWinThreshold()){
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    public boolean checkWinVerticalRemoveColumn() {
-        int rows, columns;
-
-        for(columns = 0; columns < gameModel.getNumberOfColumns() - 1; columns++){
-            int currThreshold = 0;
-            for(rows = 0; rows < gameModel.getNumberOfRows(); rows++){
-                if(gameModel.getCellOwner(rows,columns) == null || gameModel.getCellOwner(rows,columns) != gameModel.getPlayerByNumber(gameModel.getCurrentPlayerNumber())){
-                    currThreshold = 0;
-                } else {
-                    currThreshold++;
-                }
-                if(currThreshold == gameModel.getWinThreshold()){
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    //resets the "game draw" of the state
     public void resetDraw(OXOModel gameModel){
 
         gameModel.resetGameDrawn();
-
-        return;
 
     }
 
@@ -490,34 +328,5 @@ public class OXOController {
         
     }
 
-    public boolean checkRemoveLastColumnCausesWinDraw(){
-
-        if(checkWinHorizontalRemoveColumn()){
-            return true;
-        }else if(checkWinVerticalRemoveColumn()){
-            return true;
-        }else if(checkWinDiagonalRemoveColumn()){
-            return true;
-        }else if(checkDrawRemoveColumn()){
-            return true;
-        }
-
-        return false;
-    }
-
-    public boolean checkRemoveLastRowCausesWinDraw(){
-
-        if(checkWinHorizontalRemoveRow()){
-            return true;
-        }else if(checkWinVerticalRemoveRow()){
-            return true;
-        }else if(checkWinDiagonalRemoveRow()){
-            return true;
-        }else if(checkDrawRemoveRow()){
-            return true;
-        }
-
-        return false;
-    }
 
     }

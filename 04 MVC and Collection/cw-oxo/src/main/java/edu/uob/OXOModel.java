@@ -1,6 +1,5 @@
 package edu.uob;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class OXOModel {
@@ -15,9 +14,7 @@ public class OXOModel {
     public OXOModel(int numberOfRows, int numberOfColumns, int winThresh) {
         winThreshold = winThresh;
         cells = new ArrayList<ArrayList<OXOPlayer>>();
-
         initialiseCells(numberOfRows, numberOfColumns);
-
         players = new ArrayList<OXOPlayer>();
     }
 
@@ -109,17 +106,13 @@ public class OXOModel {
     }
 
     public void removeRow(){
-
         cells.remove(cells.size()-1);
-
     }
 
     public void removeColumn(){
-
         for(int i=0;i<cells.size();i++){
             cells.get(i).remove(cells.get(i).size()-1);
         }
-
     }
 
 }
